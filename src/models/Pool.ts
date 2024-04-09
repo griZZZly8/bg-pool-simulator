@@ -1,8 +1,53 @@
-import ICard from "./Card";
+import ICard, { Tier } from "./Card";
+
+export const MITION_TYPES_COUNT = 5;
+
+export const MINIONS_COUNT_BY_POOL: Record<Tier, number> = {
+  1: 16,
+  2: 15,
+  3: 13,
+  4: 11,
+  5: 9,
+  6: 7
+};
+
+export type GetCardResult = {
+  index: number,
+  card: ICard,
+}
 
 export default class Pool {
+  private allCards: ICard[];
+  public cardsPool: ICard[] = [];
   
   constructor(allCards: ICard[]) {
+    this.allCards = allCards;
+  }
 
+  public init() {
+    const t = this.allCards.map(card => new Array(MINIONS_COUNT_BY_POOL[card.tier]).fill(card));
+    this.cardsPool =([] as ICard[]).concat(...t);
+  }
+
+  private getRandomIndex(): number {
+    const max = this.cardsPool.length;
+    return Math.floor(Math.random() * max);
+  }
+
+  public getRandomCards(count: number) : GetCardResult[] {
+    const busyIndexes: number[] = [];
+
+    return new Array(count).fill(null).map(() => {
+      let index = this.getRandomIndex();
+      while (busyIndexes.indexOf(index) >= 0) {
+        index = this.getRandomIndex();
+      }
+      busyIndexes.push(index);
+
+      return {
+        index,
+        card: this.cardsPool[index]
+      };
+    });
   }
 }
