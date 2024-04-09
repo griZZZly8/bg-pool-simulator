@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/bg-pool-simulator/static/css/main.e6c13ad2.css",
+    "main.js": "/bg-pool-simulator/static/js/main.5b7a3f14.js",
+    "static/js/453.8a41c1b1.chunk.js": "/bg-pool-simulator/static/js/453.8a41c1b1.chunk.js",
+    "index.html": "/bg-pool-simulator/index.html",
+    "main.e6c13ad2.css.map": "/bg-pool-simulator/static/css/main.e6c13ad2.css.map",
+    "main.5b7a3f14.js.map": "/bg-pool-simulator/static/js/main.5b7a3f14.js.map",
+    "453.8a41c1b1.chunk.js.map": "/bg-pool-simulator/static/js/453.8a41c1b1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.5b7a3f14.js"
+  ]
+}
