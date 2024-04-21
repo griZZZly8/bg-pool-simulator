@@ -8,7 +8,6 @@ it('should fill pool based on card tier', () => {
     ];
 
     const pool = new Pool(allCards);
-    pool.init();
 
     expect(pool.cardsPool.length).toEqual(23);
     expect(pool.cardsPool[0].name).toEqual('Annoy-o-Tron');
@@ -23,7 +22,6 @@ it('get random cards should not return 2 cards with same index', () => {
     ];
 
     const pool = new Pool(allCards);
-    pool.init();
 
     const cards = pool.getRandomCards(20);
     expect(cards.length).toEqual(20);

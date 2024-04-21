@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import CardModel, { MinionTypeArray } from './models/Card';
+import CardModel from './models/Card';
 import Card from './components/Card';
 import Tavern from './components/Tavern';
-import { MinionType } from './models/Card';
 import PoolSettings from './components/PoolSettings';
 import Pool from './models/Pool';
 
@@ -11,7 +10,7 @@ export default () => {
   const [pool, setPool] = useState<Pool>();
 
   useEffect(() => {
-    const pageSize = 20;
+    const pageSize = 300;
     const url = 'https://api.blizzard.com/hearthstone/cards?bgCardType=minion&gameMode=battlegrounds';
     fetch(`${url}&pageSize=${pageSize}&sort=tier%3Aasc%2Cname%3Aasc&locale=en_US`, {
       method: 'GET',
@@ -22,10 +21,7 @@ export default () => {
     .then(r => r.json())
     .then(data => {
       const allCards = data.cards.map((card: any) => new CardModel(card));
-      setCards(allCards);
-
       const pool = new Pool(allCards);
-      pool.init();
       setPool(pool);
     });
   }, []);
@@ -40,6 +36,7 @@ export default () => {
         {cards.map(card => <Card card={card}/>)}
       </Tavern>
       <button onClick={roll}>Roll</button>
+      <hr/>
       <PoolSettings/>
     </>
   );

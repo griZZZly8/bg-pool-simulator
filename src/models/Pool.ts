@@ -31,25 +31,27 @@ export default class Pool {
   
   constructor(allCards: ICard[]) {
     this.allCards = allCards;
-  }
-
-  public init() {
     const t = this.allCards.map(card => new Array(MINIONS_COUNT_BY_POOL[card.tier]).fill(card));
     this.cardsPool =([] as ICard[]).concat(...t);
   }
 
-  private getRandomIndex(): number {
-    const max = this.cardsPool.length;
+  private getRandomIndex(pool: ICard[]) : number {
+    const max = pool.length;
     return Math.floor(Math.random() * max);
   }
 
-  public getRandomCards(count: number) : GetCardResult[] {
+  private getFilteredPool(tier: Tier) : ICard[] {
+    return this.cardsPool.filter(card => card.tier <= tier);
+  }
+
+  public getRandomCards(count: number, tier: Tier = 6) : GetCardResult[] {
     const busyIndexes: number[] = [];
+    const pool = this.getFilteredPool(tier);
 
     return new Array(count).fill(null).map(() => {
-      let index = this.getRandomIndex();
+      let index = this.getRandomIndex(pool);
       while (busyIndexes.indexOf(index) >= 0) {
-        index = this.getRandomIndex();
+        index = this.getRandomIndex(pool);
       }
       busyIndexes.push(index);
 
@@ -61,6 +63,6 @@ export default class Pool {
   }
 
   public getRoll(tier: Tier) {
-    return this.getRandomCards(ROLL_SIZE_BY_TIER[tier]).map(r => r.card);
+    return this.getRandomCards(ROLL_SIZE_BY_TIER[tier], tier).map(r => r.card);
   }
 }

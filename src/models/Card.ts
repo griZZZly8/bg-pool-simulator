@@ -25,7 +25,7 @@ export default class Card {
 
   constructor(cardJson: any) {
     this.name = cardJson.name;
-    this.image = cardJson.image;
+    this.image = cardJson.battlegrounds.image;
     this.tier = cardJson.battlegrounds.tier;
     this.minionTypes = Card.extractMinionTypes(cardJson);
   }
