@@ -16,7 +16,7 @@ it('should fill pool based on card tier', () => {
     expect(pool.cardsPool[22].name).toEqual('Svin');
 });
 
-it('get random card should not return 2 cards with same index', () => {
+it('get random cards should not return 2 cards with same index', () => {
     const allCards = [
         new Card({name: 'Annoy-o-Tron', battlegrounds: { tier: 1 }}),
         new Card({name: 'Svin', battlegrounds: { tier: 6 }}),

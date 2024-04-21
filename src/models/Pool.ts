@@ -11,6 +11,15 @@ export const MINIONS_COUNT_BY_POOL: Record<Tier, number> = {
   6: 7
 };
 
+const ROLL_SIZE_BY_TIER: Record<Tier, number> = {
+  1: 3,
+  2: 4,
+  3: 4,
+  4: 5,
+  5: 5,
+  6: 6
+};
+
 export type GetCardResult = {
   index: number,
   card: ICard,
@@ -49,5 +58,9 @@ export default class Pool {
         card: this.cardsPool[index]
       };
     });
+  }
+
+  public getRoll(tier: Tier) {
+    return this.getRandomCards(ROLL_SIZE_BY_TIER[tier]).map(r => r.card);
   }
 }
