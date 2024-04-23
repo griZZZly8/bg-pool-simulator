@@ -1,5 +1,5 @@
-export const MinionTypeArray = ['mech', 'elemental', 'murloc', 'demon', 'pirate', 'beast', 'dragon', 'naga', 'undead', 'quillboar'];
 export type MinionType = 'mech' | 'elemental' | 'murloc' | 'demon' | 'pirate' | 'beast' | 'dragon' | 'naga' | 'undead' | 'quillboar';
+export const MinionTypeArray: Array<MinionType> = ['mech', 'elemental', 'murloc', 'demon', 'pirate', 'beast', 'dragon', 'naga', 'undead', 'quillboar'];
 
 const MinionTypeMap : Record<number, MinionType> = {
   17: 'mech',
@@ -16,6 +16,7 @@ const MinionTypeMap : Record<number, MinionType> = {
 
 // Do we need T7 ???
 export type Tier = 1 | 2 | 3 | 4 | 5 | 6;
+export const TierArray: Array<Tier> = [1, 2, 3, 4, 5, 6];
 
 export default class Card {
   public name: string;

@@ -4,10 +4,12 @@ import Card from './components/Card';
 import Tavern from './components/Tavern';
 import PoolSettings from './components/PoolSettings';
 import Pool from './models/Pool';
+import PoolSettingsContext, { IPoolSettings, defaultSettings } from "./providers/PoolSettings";
 
 export default () => {
   const [cards, setCards] = useState<CardModel[]>([]);
   const [pool, setPool] = useState<Pool>();
+  const [poolSettings, setPoolSettings] = useState<IPoolSettings>(defaultSettings);
 
   useEffect(() => {
     const pageSize = 300;
@@ -27,17 +29,19 @@ export default () => {
   }, []);
 
   const roll = () => {
-    setCards(pool!.getRoll(1));
+    setCards(pool!.getRoll(poolSettings.tier));
   };
 
   return (
     <>
-      <Tavern>
-        {cards.map(card => <Card card={card}/>)}
-      </Tavern>
-      <button onClick={roll}>Roll</button>
-      <hr/>
-      <PoolSettings/>
+      <PoolSettingsContext.Provider value={{ settings: poolSettings, changeSettings: setPoolSettings}}>
+        <Tavern>
+          {cards.map((card, i) => <Card key={i} card={card}/>)}
+        </Tavern>
+        <button onClick={roll}>Roll</button>
+        <hr/>
+        <PoolSettings />
+      </PoolSettingsContext.Provider>
     </>
   );
 };
