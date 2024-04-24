@@ -29,7 +29,7 @@ export default () => {
   }, []);
 
   const roll = () => {
-    setCards(pool!.getRoll(poolSettings.tier));
+    setCards(pool!.getRoll(poolSettings.tier, poolSettings.minionTypes));
   };
 
   return (

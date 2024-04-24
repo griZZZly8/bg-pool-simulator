@@ -1,4 +1,4 @@
-import ICard, { Tier } from "./Card";
+import ICard, { MinionType, Tier } from "./Card";
 
 export const MITION_TYPES_COUNT = 5;
 
@@ -40,13 +40,13 @@ export default class Pool {
     return Math.floor(Math.random() * max);
   }
 
-  private getFilteredPool(tier: Tier) : ICard[] {
-    return this.cardsPool.filter(card => card.tier <= tier);
+  private getFilteredPool(tier: Tier, minionTypes: Array<MinionType>) : ICard[] {
+    return this.cardsPool.filter(card => card.tier <= tier && card.minionTypes.some(mType => minionTypes.includes(mType)));
   }
 
-  public getRandomCards(count: number, tier: Tier = 6) : GetCardResult[] {
+  public getRandomCards(count: number, tier: Tier = 6, minionTypes: Array<MinionType>) : GetCardResult[] {
     const busyIndexes: number[] = [];
-    const pool = this.getFilteredPool(tier);
+    const pool = this.getFilteredPool(tier, minionTypes);
 
     return new Array(count).fill(null).map(() => {
       let index = this.getRandomIndex(pool);
@@ -57,12 +57,14 @@ export default class Pool {
 
       return {
         index,
-        card: this.cardsPool[index]
+        card: pool[index]
       };
     });
   }
 
-  public getRoll(tier: Tier) {
-    return this.getRandomCards(ROLL_SIZE_BY_TIER[tier], tier).map(r => r.card);
+  public getRoll(tier: Tier, minionTypes: Array<MinionType>) {
+    const result = this.getRandomCards(ROLL_SIZE_BY_TIER[tier], tier, minionTypes).map(r => r.card);
+    debugger;
+    return result;
   }
 }

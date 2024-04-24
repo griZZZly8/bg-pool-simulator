@@ -23,7 +23,7 @@ it('get random cards should not return 2 cards with same index', () => {
 
     const pool = new Pool(allCards);
 
-    const cards = pool.getRandomCards(20);
+    const cards = pool.getRandomCards(20, 6, ['mech', 'beast']);
     expect(cards.length).toEqual(20);
 
     const array = cards.map(card => card.index);
