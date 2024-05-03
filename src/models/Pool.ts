@@ -25,6 +25,12 @@ export type GetCardResult = {
   card: ICard,
 }
 
+export interface IPoolSettings {
+  tier: Tier;
+  minionTypes: Array<MinionType>;
+  duos: boolean;
+}
+
 export default class Pool {
   private allCards: ICard[];
   public cardsPool: ICard[] = [];
@@ -40,13 +46,16 @@ export default class Pool {
     return Math.floor(Math.random() * max);
   }
 
-  private getFilteredPool(tier: Tier, minionTypes: Array<MinionType>) : ICard[] {
-    return this.cardsPool.filter(card => card.tier <= tier && card.minionTypes.some(mType => minionTypes.includes(mType)));
+  private getFilteredPool(settings: IPoolSettings) : ICard[] {
+    return this.cardsPool
+    .filter(card => card.tier <= settings.tier)
+    .filter(card => card.minionTypes.some(mType => settings.minionTypes.includes(mType)))
+    .filter(card => settings.duos || !card.duosOnly);
   }
 
-  public getRandomCards(count: number, tier: Tier = 6, minionTypes: Array<MinionType>) : GetCardResult[] {
+  public getRandomCards(count: number, settings: IPoolSettings) : GetCardResult[] {
     const busyIndexes: number[] = [];
-    const pool = this.getFilteredPool(tier, minionTypes);
+    const pool = this.getFilteredPool(settings);
 
     return new Array(count).fill(null).map(() => {
       let index = this.getRandomIndex(pool);
@@ -62,9 +71,7 @@ export default class Pool {
     });
   }
 
-  public getRoll(tier: Tier, minionTypes: Array<MinionType>) {
-    const result = this.getRandomCards(ROLL_SIZE_BY_TIER[tier], tier, minionTypes).map(r => r.card);
-    debugger;
-    return result;
+  public getRoll(settings: IPoolSettings) {
+    return this.getRandomCards(ROLL_SIZE_BY_TIER[settings.tier], settings).map(r => r.card);
   }
 }

@@ -21,6 +21,10 @@ export default () => {
         }
     };
 
+    const toggleDuos = () => {
+        changeSettings({ ...settings, duos: !settings.duos });
+    };
+
     return (
         <>
         Minions ({settings.minionTypes.join('|')}):<br/>
@@ -28,6 +32,9 @@ export default () => {
         <br/><br/>
         Tavern tier ({settings.tier}):<br/>
         {TierArray.map(tier => <button key={tier} onClick={() => setTier(tier)}>{tier}</button>)}
+        <br/><br/>
+        Duos:
+        <input type="checkbox" checked={settings.duos} onChange={toggleDuos}/>
         </>
     );
   };

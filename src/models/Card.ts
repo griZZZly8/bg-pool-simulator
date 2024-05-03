@@ -22,12 +22,14 @@ export default class Card {
   public name: string;
   public image: string;
   public tier: Tier;
+  public duosOnly: boolean;
   public minionTypes: MinionType[];
 
   constructor(cardJson: any) {
     this.name = cardJson.name;
     this.image = cardJson.battlegrounds.image;
     this.tier = cardJson.battlegrounds.tier;
+    this.duosOnly = cardJson.battlegrounds.duosOnly;
     this.minionTypes = Card.extractMinionTypes(cardJson);
   }
 
