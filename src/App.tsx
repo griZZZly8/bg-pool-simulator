@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { ConfigProvider, Layout, Flex, Button } from 'antd';
 import CardModel from './models/Card';
 import Card from './components/Card';
-import Tavern from './components/Tavern';
 import PoolSettings from './components/PoolSettings';
 import Pool from './models/Pool';
 import PoolSettingsContext, { IPoolSettings, defaultSettings } from "./providers/PoolSettings";
+import theme from './theme';
+
+const { Content } = Layout;
 
 export default () => {
   const [cards, setCards] = useState<CardModel[]>([]);
@@ -28,20 +31,30 @@ export default () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (pool) {
+      roll();
+    }
+  }, [pool]);
+
   const roll = () => {
     setCards(pool!.getRoll(poolSettings));
   };
 
   return (
-    <>
+    <ConfigProvider theme={theme}>
       <PoolSettingsContext.Provider value={{ settings: poolSettings, changeSettings: setPoolSettings}}>
-        <Tavern>
-          {cards.map((card, i) => <Card key={i} card={card}/>)}
-        </Tavern>
-        <button onClick={roll}>Roll</button>
-        <hr/>
-        <PoolSettings />
+        <Layout>
+          <Content style={{ padding: '48px' }}>
+            <Flex>
+              {cards.map((card, i) => <Card key={i} card={card}/>)}
+            </Flex>
+            <Button type='primary' onClick={roll}>Roll</Button>
+            <PoolSettings />
+          </Content>
+        </Layout>
+        
       </PoolSettingsContext.Provider>
-    </>
+    </ConfigProvider>
   );
 };

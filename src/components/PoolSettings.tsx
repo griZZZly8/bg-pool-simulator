@@ -1,7 +1,10 @@
 import { useContext } from "react";
+import { Flex, Tag, Typography, Switch, Divider } from 'antd';
 import { MinionTypeArray, TierArray, Tier, MinionType } from "../models/Card";
 import PoolSettingsContext from "../providers/PoolSettings";
+import { MITION_TYPES_COUNT } from "../models/Pool";
 
+const { Title } = Typography;
 
 export default () => {
     const { settings, changeSettings } = useContext(PoolSettingsContext);
@@ -27,14 +30,26 @@ export default () => {
 
     return (
         <>
-        Minions ({settings.minionTypes.join('|')}):<br/>
-        {MinionTypeArray.map(minionType => <button key={minionType} onClick={() => clickMinionType(minionType)}>{minionType}</button>)}
-        <br/><br/>
-        Tavern tier ({settings.tier}):<br/>
-        {TierArray.map(tier => <button key={tier} onClick={() => setTier(tier)}>{tier}</button>)}
-        <br/><br/>
-        Duos:
-        <input type="checkbox" checked={settings.duos} onChange={toggleDuos}/>
+        <Divider orientation="left">Minions ({settings.minionTypes.length} of {MITION_TYPES_COUNT})</Divider>
+        {MinionTypeArray.map(minionType => (
+            <Tag.CheckableTag
+                key={minionType}
+                checked={settings.minionTypes.includes(minionType)}
+                onChange={() => clickMinionType(minionType)}>
+            {minionType}
+          </Tag.CheckableTag>
+        ))}
+        <Divider orientation="left">Tavern tier</Divider>
+        {TierArray.map(tier => (
+            <Tag.CheckableTag
+                key={tier}
+                checked={settings.tier === tier}
+                onChange={() => setTier(tier)}>
+            {tier}
+        </Tag.CheckableTag>
+        ))}
+        <Divider orientation="left">Duos</Divider>
+        <Switch size="small" checked={settings.duos} onChange={toggleDuos}/>
         </>
     );
   };
